@@ -24,8 +24,7 @@ setup(
     description=DESCRIPTION,
     long_description=LONG_DESCRIPTION,
     long_description_content_type=LONG_DESC_TYPE,
-    package_dir={"": "sublib"},
-    packages=find_packages(where="sublib"),
+    packages=find_packages(),
     keywords=KEYWORDS,
     classifiers=[
         "Development Status :: 3 - Alpha",
