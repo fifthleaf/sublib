@@ -265,3 +265,58 @@ class Subtitle:
         line = self.content[self._i]
         self._i += 1
         return line
+
+
+class SubRip(Subtitle):
+
+    def __init__(self, path=None, encoding=None):
+        super().__init__(path, encoding)
+        self.format = r"[0-9]+\n[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} --> [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}\n*\n"
+
+    def get_general_format(self):
+        lines, temp = [], []
+        for line in self.content:
+            if line != "\n":
+                temp.append(line)
+            else:
+                lines.append(temp)
+                temp = []
+        lines = [[*line[1].split(" --> "), "|".join(line[2:])] for line in lines]
+        for line in lines:
+            line[0] = dt.datetime.strptime(line[0], "%H:%M:%S,%f")
+            line[1] = dt.datetime.strptime(line[1], "%H:%M:%S,%f")
+            line[0] = dt.timedelta(
+                hours=line[0].hour,
+                minutes=line[0].minute,
+                seconds=line[0].second,
+                microseconds=line[0].microsecond
+            )
+            line[1] = dt.timedelta(
+                hours=line[1].hour,
+                minutes=line[1].minute,
+                seconds=line[1].second,
+                microseconds=line[1].microsecond
+            )
+            for style in re.findall(r"</.*>", line[2]):
+                line[2] = line[2].replace(style, "")
+            for style in re.findall(r"<.*>", line[2]):
+                line[2] = line[2].replace(style, "")
+        return lines
+
+    def set_from_general_format(self, lines):
+        for line in lines:
+            line[0] = str(line[0])
+            line[1] = str(line[1])
+            if len(line[0]) == 7:
+                line[0] = line[0] + "." + "".zfill(6)
+            if len(line[1]) == 7:
+                line[1] = line[1] + "." + "".zfill(6)
+            line[0] = dt.datetime.strptime(line[0], "%H:%M:%S.%f")
+            line[1] = dt.datetime.strptime(line[1], "%H:%M:%S.%f")
+            line[0] = line[0].strftime("%H:%M:%S.%f").replace(".", ",")
+            line[1] = line[1].strftime("%H:%M:%S.%f").replace(".", ",")
+            line[0] = line[0][:len(line[0]) - 3]
+            line[1] = line[1][:len(line[1]) - 3]
+            line[2] = line[2].replace("|", "\n")
+        self.content = [f"{num}\n{line[0]} --> {line[1]}\n{line[2]}\n"
+                        for num, line in enumerate(lines, 1)]
