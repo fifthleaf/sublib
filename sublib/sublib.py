@@ -1,4 +1,5 @@
 import re
+import sys
 import datetime as dt
 
 
@@ -214,3 +215,53 @@ def to_tmp(lines):
         line[0] = line[0].strftime("%H:%M:%S.%f")
         line[0] = line[0][:len(line[0]) - 7]
     return [f"{line[0]}:{line[2]}" for line in lines]
+
+
+# Subtitle class
+
+
+class Subtitle:
+
+    def __init__(self, path=None, encoding=None):
+        self.path = path
+        self.encoding = encoding
+        if self.path is not None and \
+           self.encoding is not None:
+            try:
+                with open(path, "rt", encoding=encoding, errors="ignore") as file:
+                    self.content = [line.rstrip("\n") if line != "\n" else line
+                                    for line in file.readlines()]
+            except Exception:
+                self.content = None
+                print(sys.exc_info())
+        else:
+            self.content = None
+
+    def __str__(self):
+        return f'{self.__class__.__name__}("{self.path}", "{self.encoding}")'
+
+    def __repr__(self):
+        return f'{self.__class__.__name__}(path="{self.path}", encoding="{self.encoding}")'
+
+    def __bool__(self):
+        return False if self.content is None else True
+
+    def __eq__(self, other):
+        return True if self.content == other.content else False
+
+    def __len__(self):
+        return len(self.content)
+
+    def __contains__(self, item):
+        for line in self.content:
+            if line.count(item) > 0:
+                return True
+
+    def __iter__(self):
+        self._i = 0
+        return self
+
+    def __next__(self):
+        line = self.content[self._i]
+        self._i += 1
+        return line
