@@ -14,10 +14,10 @@ def detect(path_file, encoding):
     Returns:
         str: detected format or 'undefined'
     """
-    mpl_reg = "\\[[0-9]+\\]\\[[0-9]+\\] .*\n"                                                           # [START][STOP] TEXT\n
-    srt_reg = "[0-9]+\n[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} --> [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}\n"   # NUM\nSTART --> STOP\n
-    sub_reg = "{[0-9]+}{[0-9]+}.*\n"                                                                    # {START}{STOP}TEXT\n
-    tmp_reg = "[0-9]+:[0-9]+:[0-9]+:.*\n"                                                               # START:TEXT\n
+    mpl_reg = r"\\[[0-9]+\\]\\[[0-9]+\\] .*\n"                                                              # [START][STOP] TEXT\n
+    srt_reg = r"[0-9]+\n[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} --> [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}\n*\n"   # NUM\nSTART --> STOP\n
+    sub_reg = r"{[0-9]+}{[0-9]+}.*\n"                                                                       # {START}{STOP}TEXT\n
+    tmp_reg = r"[0-9]+:[0-9]+:[0-9]+:.*\n"                                                                  # START:TEXT\n
     with open(path_file, "rt", encoding=encoding, errors="ignore") as file:
         content = file.read()
     if len(re.findall(mpl_reg, content)) > 0:
