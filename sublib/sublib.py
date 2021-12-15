@@ -345,3 +345,29 @@ class SubRip(Subtitle):
             line[2] = line[2].replace("|", "\n")
         self.content = [f"{num}\n{line[0]} --> {line[1]}\n{line[2]}\n"
                         for num, line in enumerate(lines, 1)]
+
+
+class MicroDVD(Subtitle):
+
+    def __init__(self, path=None, encoding=None):
+        super().__init__(path, encoding)
+        self.format = r"{[0-9]+}{[0-9]+}.*\n"
+
+    def get_general_format(self):
+        lines = [line.split("}", 2) for line in (line.rstrip("\n") for line in self.content)]
+        for line in lines:
+            line[0] = dt.timedelta(
+                seconds=round(float(line[0].replace("{", "")) / 23.976, 3)
+            )
+            line[1] = dt.timedelta(
+                seconds=round(float(line[1].replace("{", "")) / 23.976, 3)
+            )
+            for style in re.findall(r"{.*}", line[2]):
+                line[2] = line[2].replace(style, "")
+        return lines
+
+    def set_from_general_format(self, lines):
+        for line in lines:
+            line[0] = round(line[0].total_seconds() * 23.976)
+            line[1] = round(line[1].total_seconds() * 23.976)
+        self.content = [f"{{{line[0]}}}{{{line[1]}}}{line[2]}" for line in lines]
