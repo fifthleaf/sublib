@@ -371,3 +371,41 @@ class MicroDVD(Subtitle):
             line[0] = round(line[0].total_seconds() * 23.976)
             line[1] = round(line[1].total_seconds() * 23.976)
         self.content = [f"{{{line[0]}}}{{{line[1]}}}{line[2]}" for line in lines]
+
+
+class TMPlayer(Subtitle):
+
+    def __init__(self, path=None, encoding=None):
+        super().__init__(path, encoding)
+        self.format = r"[0-9]+:[0-9]+:[0-9]+:.*\n"
+
+    def get_general_format(self):
+        lines = [line.split(":", 3) for line in (line.rstrip("\n") for line in self.content)]
+        lines = [[f"{line[0]}:{line[1]}:{line[2]}", f"{line[0]}:{line[1]}:{line[2]}", line[3]]
+                 for line in lines]
+        for line in lines:
+            line[0] = dt.datetime.strptime(line[0], "%H:%M:%S")
+            line[1] = dt.datetime.strptime(line[1], "%H:%M:%S")
+            line[0] = dt.timedelta(
+                hours=line[0].hour,
+                minutes=line[0].minute,
+                seconds=line[0].second,
+                microseconds=line[0].microsecond
+            )
+            line[1] = dt.timedelta(
+                hours=line[1].hour,
+                minutes=line[1].minute,
+                seconds=line[1].second + 1,
+                microseconds=line[1].microsecond
+            )
+        return lines
+
+    def set_from_general_format(self, lines):
+        for line in lines:
+            line[0] = str(line[0])
+            if len(line[0]) == 7:
+                line[0] = line[0] + "." + "".zfill(6)   # If no microsecons, fill with zeros
+            line[0] = dt.datetime.strptime(line[0], "%H:%M:%S.%f")
+            line[0] = line[0].strftime("%H:%M:%S.%f")
+            line[0] = line[0][:len(line[0]) - 7]
+        self.content = [f"{line[0]}:{line[2]}" for line in lines]
