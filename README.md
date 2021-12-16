@@ -19,77 +19,94 @@
 
 ## Installation
 
-Currently, sublib supports releases of Python 3.6 onwards. To install the current release:
+Currently, Sublib supports releases of Python 3.6 onwards. To install the current release:
 ```bash
-pip install --upgrade sublib
+pip install sublib
 ```
+..or you can just download package files via [GitHub](https://github.com/TheFifthLeaf/sublib/archive/refs/tags/v1.1.0.zip).
+
 
 ## Getting Started
 
-You have a few function at your disposal.
-
-#### detect(file_name, file_encoding)
+To use the module you need to import it first:
 ```python
-from sublib import detect
-
-# This will detect subrip format
-file_format = detect("subtitle.srt", "utf-8")
+import sublib
 ```
 
-#### from_mpl(opened_file), to_mpl(general_lines)
+Detection of the subtitle format:
 ```python
-from sublib import from_mpl, to_mpl
-
-# This will read MPlayer2 file and convert to general list
-with open("subtitle.txt", "rt", encoding="utf-8") as file:
-	general_list = from_mpl(file)
-
-# This will read lines from general list and convert to MPlayer2 format
-formated_lines = to_mpl(general_list)
+# If the format is unknown it will return 'undefined'
+sub_format = sublib.detect("subtitle.srt", "utf-8")
 ```
 
-#### from_srt(opened_file), to_srt(general_lines)
+Creation of the subtitle object:
 ```python
-from sublib import from_srt, to_srt
-
-# This will read SubRip file and convert to general list
-with open("subtitle.srt", "rt", encoding="utf-8") as file:
-	general_list = from_srt(file)
-
-# This will read lines from general list and convert to SubRip format
-formated_lines = to_srt(general_list)
+# You can choose from: MPlayer2, SubRip, MicroDVD, TMPlayer
+subtitle = sublib.SubRip("subtitle.srt", "utf-8")
 ```
 
-#### from_sub(opened_file), to_sub(general_lines)
+Each subtitle object has two methods:
 ```python
-from sublib import from_sub, to_sub
-
-# This will read MicroDVD file and convert to general list
-with open("subtitle.sub", "rt", encoding="utf-8") as file:
-	general_list = from_sub(file)
-
-# This will read lines from general list and convert to MicroDVD format
-formated_lines = to_sub(general_list)
+# Returns a list of lines in a universal format
+# [[datetime.timedelta(...), datetime.timedelta(...), 'Line 01|Line 02], ...]
+general = subtitle.get_general_format()
+```
+```python
+# Formats lines and adds them to an existing object
+empty_subtitle = sublib.MPlayer2()
+empty_subtitle.set_from_general_format(general)
 ```
 
-#### from_tmp(opened_file), to_tmp(general_lines)
+..and several attributes:
 ```python
-from sublib import from_tmp, to_tmp
-
-# This will read TMPlayer file and convert to general list
-with open("subtitle.txt", "rt", encoding="utf-8") as file:
-	general_list = from_tmp(file)
-
-# This will read lines from general list and convert to TMPlayer format
-formated_lines = to_tmp(general_list)
+subtitle.path		# The file path you used to create the object
+subtitle.encoding 	# The encoding you used to create the object
+subtitle.content 	# The contents of the file as a list of lines
+subtitle.format 	# The regex format of a specific type of subtitle
 ```
 
+Boolean conversion:
+```python
+# Empty object will return False
+print(bool(subtitle))
+# Object with content will return True
+subtitle.set_from_general_format(general)
+if subtitle:
+	print(subtitle.content)
+```
+
+Object content comparison:
+```python
+# The contents of the 'content' attributes of each object are compared
+if subtitle_1 != subtitle_2:
+	subtitle_2.content = subtitle_1.content
+```
+
+Return the number of lines in the file:
+```python
+# In all formats except SubRip, this is the number of lines that will be displayed
+print(len(subtitle))
+```
+
+Presence of a string in the subtitles may be check with 'in' statement:
+```python
+# The individual lines are searched sequentially
+if "some text" in subtitle:
+	return "Yes"
+```
+
+Iterating over the subtitle lines:
+```python
+# The individual lines are searched sequentially
+for line in subtitle:
+	print(line)
+```
 
 ## Supported formats
 
+- as **mpl** - MPlayer2 (.txt)
 - as **srt** - SubRip (.srt)
 - as **sub** - MicroDVD (.sub)
-- as **mpl** - MPlayer2 (.txt)
 - as **tmp** - TMPlayer (.txt)
 
 ## Contributing
