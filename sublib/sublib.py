@@ -41,6 +41,7 @@ class Subtitle:
     Attributes:
         path (str): Absolute or relative path to subtitle file that will be read
         encoding (str): Valid encoding that will be use to open a subtitle file
+        content (list): The lines of the subtitle file
     """
 
     def __init__(self, path=None, encoding=None):
@@ -106,6 +107,8 @@ class MPlayer2(Subtitle):
     Attributes:
         path (str): Absolute or relative path to subtitle file that will be read
         encoding (str): Valid encoding that will be use to open a subtitle file
+        content (list): The lines of the subtitle file
+        format (str): RegEx of specified format
     """
 
     def __init__(self, path=None, encoding=None):
@@ -153,6 +156,8 @@ class SubRip(Subtitle):
     Attributes:
         path (str): Absolute or relative path to subtitle file that will be read
         encoding (str): Valid encoding that will be use to open a subtitle file
+        content (list): The lines of the subtitle file
+        format (str): RegEx of specified format
     """
 
     def __init__(self, path=None, encoding=None):
@@ -230,6 +235,8 @@ class MicroDVD(Subtitle):
     Attributes:
         path (str): Absolute or relative path to subtitle file that will be read
         encoding (str): Valid encoding that will be use to open a subtitle file
+        content (list): The lines of the subtitle file
+        format (str): RegEx of specified format
     """
 
     def __init__(self, path=None, encoding=None):
@@ -278,6 +285,8 @@ class TMPlayer(Subtitle):
     Attributes:
         path (str): Absolute or relative path to subtitle file that will be read
         encoding (str): Valid encoding that will be use to open a subtitle file
+        content (list): The lines of the subtitle file
+        format (str): RegEx of specified format
     """
 
     def __init__(self, path=None, encoding=None):
