@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-VERSION = "1.0.1"
+VERSION = "1.1.0"
 PACKAGE_NAME = "sublib"
 AUTHOR = "Dawid Jach"
 AUTHOR_EMAIL = "jach.developer@protonmail.com"
