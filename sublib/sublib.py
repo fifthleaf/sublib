@@ -7,7 +7,7 @@ import datetime as dt
 
 
 def detect(path_file, encoding):
-    """Detect subtitle format
+    """A function to detect subtitle format
     Parameters:
         path_file (str): path to a file that may contain subtitles
         encoding (str): The type of encoding to use when opening the file
