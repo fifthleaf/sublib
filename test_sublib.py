@@ -5,7 +5,7 @@ import datetime
 import sublib as sbl
 
 
-class DetectTest(ut.TestCase):
+class DetectFuncTest(ut.TestCase):
 
     def test_mpl(self):
         test_data = "[601][631] Line 01|Line 02\n[633][654] Line 03|Line 04\n[656][668] Line 04\n"
@@ -53,7 +53,7 @@ class DetectTest(ut.TestCase):
             self.assertEqual("undefined", sbl.detect(mock_file, "utf-8"))
 
 
-class MPlayer2Test(ut.TestCase):
+class MPlayer2ClassTest(ut.TestCase):
 
     def setUp(self):
         self.general_lines = [
@@ -62,18 +62,20 @@ class MPlayer2Test(ut.TestCase):
             [datetime.timedelta(seconds=65, microseconds=600000), datetime.timedelta(seconds=66, microseconds=800000), 'Line 04']
         ]
 
-    def test_from(self):
+    def test_get_general_format(self):
         format_lines = "[601][631] Line 01|Line 02\n[633][654] Line 03|Line 04\n[656][668] Line 04\n"
         with patch("builtins.open", mock_open(read_data=format_lines)) as mock_file:
-            with open(mock_file, "rt", encoding="utf-8", errors="ignore") as path_file:
-                self.assertEqual(self.general_lines, sbl.from_mpl(path_file))
+            subtitle = sbl.MPlayer2(mock_file, "utf-8")
+        self.assertEqual(self.general_lines, subtitle.get_general_format())
 
-    def test_to(self):
+    def test_set_from_general_format(self):
         format_lines = ["[601][631] Line 01|Line 02", "[633][654] Line 03|Line 04", "[656][668] Line 04"]
-        self.assertEqual(format_lines, sbl.to_mpl(self.general_lines))
+        subtitle = sbl.MPlayer2()
+        subtitle.set_from_general_format(self.general_lines)
+        self.assertEqual(format_lines, subtitle.content)
 
 
-class SubRipTest(ut.TestCase):
+class SubRipClassTest(ut.TestCase):
 
     def setUp(self):
         self.general_lines = [
@@ -82,18 +84,20 @@ class SubRipTest(ut.TestCase):
             [datetime.timedelta(seconds=65, microseconds=607000), datetime.timedelta(seconds=66, microseconds=775000), 'Line 04']
         ]
 
-    def test_from(self):
+    def test_get_general_format(self):
         format_lines = "1\n00:01:00,060 --> 00:01:03,105\nLine 01\nLine 02\n\n2\n00:01:03,272 --> 00:01:05,440\nLine 03\nLine 04\n\n3\n00:01:05,607 --> 00:01:06,775\nLine 04\n\n"
         with patch("builtins.open", mock_open(read_data=format_lines)) as mock_file:
-            with open(mock_file, "rt", encoding="utf-8", errors="ignore") as path_file:
-                self.assertEqual(self.general_lines, sbl.from_srt(path_file))
+            subtitle = sbl.SubRip(mock_file, "utf-8")
+        self.assertEqual(self.general_lines, subtitle.get_general_format())
 
-    def test_to(self):
+    def test_set_from_general_format(self):
         format_lines = ["1\n00:01:00,060 --> 00:01:03,105\nLine 01\nLine 02\n", "2\n00:01:03,272 --> 00:01:05,440\nLine 03\nLine 04\n", "3\n00:01:05,607 --> 00:01:06,775\nLine 04\n"]
-        self.assertEqual(format_lines, sbl.to_srt(self.general_lines))
+        subtitle = sbl.SubRip()
+        subtitle.set_from_general_format(self.general_lines)
+        self.assertEqual(format_lines, subtitle.content)
 
 
-class MicroDVDTest(ut.TestCase):
+class MicroDVDClassTest(ut.TestCase):
 
     def setUp(self):
         self.general_lines = [
@@ -102,18 +106,20 @@ class MicroDVDTest(ut.TestCase):
             [datetime.timedelta(seconds=65, microseconds=607000), datetime.timedelta(seconds=66, microseconds=775000), 'Line 04']
         ]
 
-    def test_from(self):
+    def test_get_general_format(self):
         format_lines = "{1440}{1513}Line 01|Line 02\n{1517}{1569}Line 03|Line 04\n{1573}{1601}Line 04\n"
         with patch("builtins.open", mock_open(read_data=format_lines)) as mock_file:
-            with open(mock_file, "rt", encoding="utf-8", errors="ignore") as path_file:
-                self.assertEqual(self.general_lines, sbl.from_sub(path_file))
+            subtitle = sbl.MicroDVD(mock_file, "utf-8")
+        self.assertEqual(self.general_lines, subtitle.get_general_format())
 
-    def test_to(self):
+    def test_set_from_general_format(self):
         format_lines = ["{1440}{1513}Line 01|Line 02", "{1517}{1569}Line 03|Line 04", "{1573}{1601}Line 04"]
-        self.assertEqual(format_lines, sbl.to_sub(self.general_lines))
+        subtitle = sbl.MicroDVD()
+        subtitle.set_from_general_format(self.general_lines)
+        self.assertEqual(format_lines, subtitle.content)
 
 
-class TMPlayerTest(ut.TestCase):
+class TMPlayerClassTest(ut.TestCase):
 
     def setUp(self):
         self.general_lines = [
@@ -122,15 +128,17 @@ class TMPlayerTest(ut.TestCase):
             [datetime.timedelta(seconds=65), datetime.timedelta(seconds=66), 'Line 04']
         ]
 
-    def test_from(self):
+    def test_get_general_format(self):
         format_lines = "00:01:00:Line 01|Line 02\n00:01:03:Line 03|Line 04\n00:01:05:Line 04"
         with patch("builtins.open", mock_open(read_data=format_lines)) as mock_file:
-            with open(mock_file, "rt", encoding="utf-8", errors="ignore") as path_file:
-                self.assertEqual(self.general_lines, sbl.from_tmp(path_file))
+            subtitle = sbl.TMPlayer(mock_file, "utf-8")
+        self.assertEqual(self.general_lines, subtitle.get_general_format())
 
-    def test_to(self):
+    def test_set_from_general_format(self):
         format_lines = ["00:01:00:Line 01|Line 02", "00:01:03:Line 03|Line 04", "00:01:05:Line 04"]
-        self.assertEqual(format_lines, sbl.to_tmp(self.general_lines))
+        subtitle = sbl.TMPlayer()
+        subtitle.set_from_general_format(self.general_lines)
+        self.assertEqual(format_lines, subtitle.content)
 
 
 if __name__ == '__main__':
