@@ -25,6 +25,12 @@ pip install sublib
 ```
 ..or you can just download package files via [GitHub](https://github.com/TheFifthLeaf/sublib/archive/refs/tags/v1.1.0.zip).
 
+## Testing
+
+Sublib uses unittest tests. Tests can be run with:
+```bash
+python -m unittest discover -s tests
+```
 
 ## Getting Started
 
