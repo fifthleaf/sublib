@@ -226,7 +226,7 @@ class SubRip(Subtitle):
             line[0] = line[0][:len(line[0]) - 3]
             line[1] = line[1][:len(line[1]) - 3]
             line[2] = line[2].replace("|", "\n")
-        self.content = [f"{num}\n{line[0]} --> {line[1]}\n{line[2]}\n"
+        self.content = [f"{num}\n{line[0]} --> {line[1]}\n{line[2]}\n\n"
                         for num, line in enumerate(lines, 1)]
 
 
