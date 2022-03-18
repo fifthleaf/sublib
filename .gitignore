@@ -1,0 +1,12 @@
+# Testing
+.tox
+
+# Packaging
+dist
+*.egg-info
+
+# Executing
+__pycache__
+
+# Environments
+venv
