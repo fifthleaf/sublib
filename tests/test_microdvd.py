@@ -1,27 +1,48 @@
-import unittest as ut
-from unittest.mock import patch, mock_open
+import builtins
 import datetime
 
-import sublib as sbl
+import pytest
+import pytest_mock
+import sublib
 
 
-class MicroDVDClassTest(ut.TestCase):
+class TestMicroDVDClass:
 
-    def setUp(self):
-        self.general_lines = [
-            [datetime.timedelta(seconds=60, microseconds=60000), datetime.timedelta(seconds=63, microseconds=105000), 'Line 01|Line 02'],
-            [datetime.timedelta(seconds=63, microseconds=272000), datetime.timedelta(seconds=65, microseconds=440000), 'Line 03|Line 04'],
-            [datetime.timedelta(seconds=65, microseconds=607000), datetime.timedelta(seconds=66, microseconds=775000), 'Line 04']
+    general_lines = [
+        [
+            datetime.timedelta(seconds=60, microseconds=60000),
+            datetime.timedelta(seconds=63, microseconds=105000),
+            'Line 01|Line 02'
+        ],
+        [
+            datetime.timedelta(seconds=63, microseconds=272000),
+            datetime.timedelta(seconds=65, microseconds=440000),
+            'Line 03|Line 04'
+        ],
+        [
+            datetime.timedelta(seconds=65, microseconds=607000),
+            datetime.timedelta(seconds=66, microseconds=775000),
+            'Line 04'
         ]
+    ]
 
-    def test_get_general_format(self):
-        format_lines = "{1440}{1513}Line 01|Line 02\n{1517}{1569}Line 03|Line 04\n{1573}{1601}Line 04\n"
-        with patch("builtins.open", mock_open(read_data=format_lines)) as mock_file:
-            subtitle = sbl.MicroDVD(mock_file, "utf-8")
-        self.assertEqual(self.general_lines, subtitle.get_general_format())
+    def test_microdvd_get_general_format(self, mocker):
+        test_data = "{1440}{1513}Line 01|Line 02\n"\
+                    "{1517}{1569}Line 03|Line 04\n"\
+                    "{1573}{1601}Line 04\n"
+        mocker.patch(
+            "builtins.open",
+            mocker.mock_open(read_data=test_data)
+        )
+        subtitle = sublib.MicroDVD("file.txt", "utf-8")
+        assert self.general_lines == subtitle.get_general_format()
 
-    def test_set_from_general_format(self):
-        format_lines = ["{1440}{1513}Line 01|Line 02", "{1517}{1569}Line 03|Line 04", "{1573}{1601}Line 04"]
-        subtitle = sbl.MicroDVD()
+    def test_microdvd_set_from_general_format(self):
+        test_data = [
+            "{1440}{1513}Line 01|Line 02",
+            "{1517}{1569}Line 03|Line 04",
+            "{1573}{1601}Line 04"
+        ]
+        subtitle = sublib.MicroDVD()
         subtitle.set_from_general_format(self.general_lines)
-        self.assertEqual(format_lines, subtitle.content)
+        assert test_data == subtitle.content
