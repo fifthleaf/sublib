@@ -1,5 +1,6 @@
 # Testing
 .tox
+.pytest_cache
 
 # Packaging
 dist
