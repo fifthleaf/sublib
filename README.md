@@ -21,16 +21,28 @@
 
 Currently, Sublib supports releases of Python 3.6 onwards. To install the current release:
 ```bash
-pip install sublib
+python -m pip install sublib
 ```
 ..or you can just download package files via [GitHub](https://github.com/TheFifthLeaf/sublib/archive/refs/tags/v1.2.0.zip).
 
 ## Testing
 
-Sublib uses unittest tests. Tests can be run with:
+### Execute tests
+Checks can be run via:
 ```bash
-python -m unittest discover -s tests
+python -m pytest tests
 ```
+
+### Tests coverage
+You can check coverage by yourself:
+```bash
+python -m coverage report -m
+```
+Summary:
+| Name 		              | Stmts | Miss | Cover |
+|:------------------------|------:|-----:|------:|
+| sublib\\\_\_init\_\_.py | 2     | 0    | 100%  |
+| sublib\sublib.py        | 146   | 21   | 86%   |
 
 ## Getting Started
 
