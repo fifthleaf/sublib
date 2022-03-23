@@ -6,7 +6,7 @@ Variables:
 
 Functions:
 
-    detect(path_file: str, encoding: str) -> format: str
+    detect(filepath: str, encoding: str) -> format: str
 
 Classes:
 
