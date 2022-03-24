@@ -24,55 +24,63 @@ CLASSES
     |   Specific format classes inherit from it.
     |
     |   Methods:
-    |   __init__(path, encoding)
-    |   __str__()
-    |   __repr__()
-    |   __bool__()
-    |   __eq__(other)
-    |   __len__()
-    |   __contains__(item)
-    |   __iter__()
-    |   __next__()
+    |       __init__(path, encoding)
+    |       __str__()
+    |       __repr__()
+    |       __bool__()
+    |       __eq__(other)
+    |       __len__()
+    |       __contains__(item)
+    |       __iter__()
+    |       __next__()
     |
 
     MPlayer2(Subtitle)
     |
     |   Represent MPlayer2 subtitle format.
     |
+    |   Attributes:
+    |       pattern
+    |
     |   Methods:
-    |   __init__(path, encoding)
-    |   get_general_format()
-    |   set_from_general_format(lines)
+    |       get_general_format()
+    |       set_from_general_format(lines)
     |
 
     SubRip(Subtitle)
     |
     |   Represent SubRip subtitle format.
     |
+    |   Attributes:
+    |       pattern
+    |
     |   Methods:
-    |   __init__(path, encoding)
-    |   get_general_format()
-    |   set_from_general_format(lines)
+    |       get_general_format()
+    |       set_from_general_format(lines)
     |
 
     MicroDVD(Subtitle)
     |
     |   Represent MicroDVD subtitle format.
     |
+    |   Attributes:
+    |       pattern
+    |
     |   Methods:
-    |   __init__(path, encoding)
-    |   get_general_format()
-    |   set_from_general_format(lines)
+    |       get_general_format()
+    |       set_from_general_format(lines)
     |
 
     TMPlayer(Subtitle)
     |
     |   Represent TMPlayer subtitle format.
     |
+    |   Attributes:
+    |       pattern
+    |
     |   Methods:
-    |   __init__(path, encoding)
-    |   get_general_format()
-    |   set_from_general_format(lines)
+    |       get_general_format()
+    |       set_from_general_format(lines)
     |
 
 """

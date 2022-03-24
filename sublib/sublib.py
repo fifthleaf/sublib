@@ -82,7 +82,7 @@ class Subtitle:
         Give a next line.
     """
 
-    def __init__(self, path: str, encoding: str) -> None:
+    def __init__(self, path: str = "", encoding: str = "") -> None:
         """
         Construct a class instance.
 
@@ -260,7 +260,7 @@ class MPlayer2(Subtitle):
         Representation of encoding type.
     content: list
         Lines of the subtitle file.
-    format: str
+    pattern: str
         RegEx pattern of MPlayer2 format.
     _iterator: int
         Iter number when iterator set.
@@ -291,23 +291,7 @@ class MPlayer2(Subtitle):
         Give a next line.
     """
 
-    def __init__(self, path: str = "", encoding: str = "") -> None:
-        """
-        Construct a class instance.
-
-        Parameters
-        ----------
-        path: str
-            Path to a textual subtitle file.
-        encoding: str
-            Representation of encoding type.
-
-        Returns
-        ----------
-        None
-        """
-        super().__init__(path, encoding)
-        self.format = r"\\[[0-9]+\\]\\[[0-9]+\\] .*\n"
+    pattern = r"\\[[0-9]+\\]\\[[0-9]+\\] .*\n"
 
     def get_general_format(self) -> list:
         """
@@ -368,7 +352,7 @@ class SubRip(Subtitle):
         Representation of encoding type.
     content: list
         Lines of the subtitle file.
-    format: str
+    pattern: str
         RegEx pattern of SubRip format.
     _iterator: int
         Iter number when iterator set.
@@ -399,24 +383,8 @@ class SubRip(Subtitle):
         Give a next line.
     """
 
-    def __init__(self, path: str = "", encoding: str = "") -> None:
-        """
-        Construct a class instance.
-
-        Parameters
-        ----------
-        path: str
-            Path to a textual subtitle file.
-        encoding: str
-            Representation of encoding type.
-
-        Returns
-        ----------
-        None
-        """
-        super().__init__(path, encoding)
-        self.format = r"[0-9]+\n[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} "\
-                      r"--> [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}\n*\n"
+    pattern = r"[0-9]+\n[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} "\
+              r"--> [0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3}\n*\n"
 
     def get_general_format(self) -> list:
         """
@@ -505,7 +473,7 @@ class MicroDVD(Subtitle):
         Representation of encoding type.
     content: list
         Lines of the subtitle file.
-    format: str
+    pattern: str
         RegEx pattern of MicroDVD format.
     _iterator: int
         Iter number when iterator set.
@@ -536,23 +504,7 @@ class MicroDVD(Subtitle):
         Give a next line.
     """
 
-    def __init__(self, path: str = "", encoding: str = "") -> None:
-        """
-        Construct a class instance.
-
-        Parameters
-        ----------
-        path: str
-            Path to a textual subtitle file.
-        encoding: str
-            Representation of encoding type.
-
-        Returns
-        ----------
-        None
-        """
-        super().__init__(path, encoding)
-        self.format = r"{[0-9]+}{[0-9]+}.*\n"
+    pattern = r"{[0-9]+}{[0-9]+}.*\n"
 
     def get_general_format(self) -> list:
         """
@@ -614,7 +566,7 @@ class TMPlayer(Subtitle):
         Representation of encoding type.
     content: list
         Lines of the subtitle file.
-    format: str
+    pattern: str
         RegEx pattern of TMPlayer format.
     _iterator: int
         Iter number when iterator set.
@@ -645,23 +597,7 @@ class TMPlayer(Subtitle):
         Give a next line.
     """
 
-    def __init__(self, path: str = "", encoding: str = "") -> None:
-        """
-        Construct a class instance.
-
-        Parameters
-        ----------
-        path: str
-            Path to a textual subtitle file.
-        encoding: str
-            Representation of encoding type.
-
-        Returns
-        ----------
-        None
-        """
-        super().__init__(path, encoding)
-        self.format = r"[0-9]+:[0-9]+:[0-9]+:.*\n"
+    pattern = r"[0-9]+:[0-9]+:[0-9]+:.*\n"
 
     def get_general_format(self) -> list:
         """

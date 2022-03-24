@@ -80,7 +80,7 @@ empty_subtitle.set_from_general_format(general)
 subtitle.path		# The file path you used to create the object
 subtitle.encoding 	# The encoding you used to create the object
 subtitle.content 	# The contents of the file as a list of lines
-subtitle.format 	# The regex format of a specific type of subtitle
+subtitle.pattern 	# The regex format of a specific type of subtitle
 ```
 
 Boolean conversion:
