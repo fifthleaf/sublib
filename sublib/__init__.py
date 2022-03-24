@@ -1,44 +1,79 @@
-"""Python library for easier management and processing of subtitle files.
+"""
+SubLib
+========
+Package for easier management and
+processing of subtitle files. Library
+allows you to get subtitle data and
+convert their formats.
 
-Variables:
+VARIABLES
 
-    __version__: str
+    __version__
+        Contains the package version.
 
-Functions:
+FUNCTONS
 
-    detect(filepath: str, encoding: str) -> format: str
+    detect(path, encoding)
+        Specifies the subtitle format.
 
-Classes:
+CLASSES
 
-    Subtitle(path: str, encoding: str)
-        get_general_format() -> lines: list
-        set_from_general_format(lines: list)
+    Subtitle(__builtin__.object)
+    |
+    |   Represent subtitle file in general.
+    |   Specific format classes inherit from it.
+    |
+    |   Methods:
+    |   __init__(path, encoding)
+    |   __str__()
+    |   __repr__()
+    |   __bool__()
+    |   __eq__(other)
+    |   __len__()
+    |   __contains__(item)
+    |   __iter__()
+    |   __next__()
+    |
 
-    MPlayer2(path: str, encoding: str)
-        get_general_format() -> lines: list
-        set_from_general_format(lines: list)
+    MPlayer2(Subtitle)
+    |
+    |   Represent MPlayer2 subtitle format.
+    |
+    |   Methods:
+    |   __init__(path, encoding)
+    |   get_general_format()
+    |   set_from_general_format(lines)
+    |
 
-    SubRip(path: str, encoding: str)
-        get_general_format() -> lines: list
-        set_from_general_format(lines: list)
+    SubRip(Subtitle)
+    |
+    |   Represent SubRip subtitle format.
+    |
+    |   Methods:
+    |   __init__(path, encoding)
+    |   get_general_format()
+    |   set_from_general_format(lines)
+    |
 
-    MicroDVD(path: str, encoding: str)
-        get_general_format() -> lines: list
-        set_from_general_format(lines: list)
+    MicroDVD(Subtitle)
+    |
+    |   Represent MicroDVD subtitle format.
+    |
+    |   Methods:
+    |   __init__(path, encoding)
+    |   get_general_format()
+    |   set_from_general_format(lines)
+    |
 
-    TMPlayer(path: str, encoding: str)
-        get_general_format() -> lines: list
-        set_from_general_format(lines: list)
-
-Descriptions:
-
-    __version__ - A variable that store package version.
-    detect      - A function to detect subtitle format.
-    Subtitle    - A class to represent subtitle file in general.
-    MPlayer2    - A class to represent MPlayer2 subtitle file.
-    SubRip      - A class to represent SubRip subtitle file.
-    MicroDVD    - A class to represent MicroDVD subtitle file.
-    TMPlayer    - A class to represent TMPlayer subtitle file.
+    TMPlayer(Subtitle)
+    |
+    |   Represent TMPlayer subtitle format.
+    |
+    |   Methods:
+    |   __init__(path, encoding)
+    |   get_general_format()
+    |   set_from_general_format(lines)
+    |
 
 """
 
