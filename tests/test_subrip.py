@@ -10,8 +10,8 @@ class TestSubRipClass:
 
     general_lines = [
         [
-            datetime.timedelta(seconds=60, microseconds=60000),
-            datetime.timedelta(seconds=63, microseconds=105000),
+            datetime.timedelta(seconds=60, microseconds=0),
+            datetime.timedelta(seconds=63, microseconds=0),
             'Line 01|Line 02'
         ],
         [
@@ -28,7 +28,7 @@ class TestSubRipClass:
 
     def test_subrip_get_general_format(self, mocker):
         test_data = "1\n"\
-                    "00:01:00,060 --> 00:01:03,105\n"\
+                    "00:01:00,000 --> 00:01:03,000\n"\
                     "Line 01\n"\
                     "Line 02\n\n"\
                     "2\n00:01:03,272 --> 00:01:05,440\n"\
@@ -36,7 +36,7 @@ class TestSubRipClass:
                     "Line 04\n\n"\
                     "3\n"\
                     "00:01:05,607 --> 00:01:06,775\n"\
-                    "Line 05\n\n"
+                    "<b>Line 05</b>\n\n"
         mocker.patch(
             "builtins.open",
             mocker.mock_open(read_data=test_data)
@@ -47,7 +47,7 @@ class TestSubRipClass:
     def test_subrip_set_from_general_format(self):
         test_data = [
             "1\n"
-            "00:01:00,060 --> 00:01:03,105\n"
+            "00:01:00,000 --> 00:01:03,000\n"
             "Line 01\n"
             "Line 02\n\n",
             "2\n"
