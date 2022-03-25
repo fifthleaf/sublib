@@ -42,7 +42,7 @@ Summary:
 | Name 		              | Stmts | Miss | Cover |
 |:------------------------|------:|-----:|------:|
 | sublib\\\_\_init\_\_.py | 2     | 0    | 100%  |
-| sublib\sublib.py        | 146   | 21   | 86%   |
+| sublib\sublib.py        | 144   | 0    | 100%  |
 
 ## Getting Started
 
