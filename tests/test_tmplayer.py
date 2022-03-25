@@ -26,6 +26,9 @@ class TestTMPlayerClass:
         ]
     ]
 
+    def test_microdvd_parent_class(self):
+        assert issubclass(sublib.MicroDVD, sublib.Subtitle)
+
     def test_tmplayer_get_general_format(self, mocker):
         test_data = "00:01:00:Line 01|Line 02\n"\
                     "00:01:03:Line 03|Line 04\n"\

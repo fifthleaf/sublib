@@ -26,6 +26,9 @@ class TestMicroDVDClass:
         ]
     ]
 
+    def test_microdvd_parent_class(self):
+        assert issubclass(sublib.MicroDVD, sublib.Subtitle)
+
     def test_microdvd_get_general_format(self, mocker):
         test_data = "{1440}{1513}{b}Line 01|Line 02\n"\
                     "{1517}{1569}Line 03|Line 04\n"\

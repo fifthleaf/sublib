@@ -26,6 +26,9 @@ class TestSubRipClass:
         ]
     ]
 
+    def test_microdvd_parent_class(self):
+        assert issubclass(sublib.MicroDVD, sublib.Subtitle)
+
     def test_subrip_get_general_format(self, mocker):
         test_data = "1\n"\
                     "00:01:00,000 --> 00:01:03,000\n"\
