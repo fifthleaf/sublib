@@ -12,15 +12,14 @@ def detect(path: str, encoding: str) -> str:
 
     Parameters
     ----------
-    path: str
+    path
         Path to a textual subtitle file.
-    encoding: str
+    encoding
         Representation of encoding type.
 
     Returns
     ----------
-    str
-        Detected format.
+    Detected format.
     """
     with open(path, "rt", encoding=encoding, errors="ignore") as f:
         content = f.read()
@@ -47,40 +46,19 @@ def detect(path: str, encoding: str) -> str:
 class Subtitle:
     """
     Represent subtitle file in general.
-    Specific format classes inherit from it.
 
-    Attributes
+    Note
     ----------
-    path: str
-        Path to a textual subtitle file.
-    encoding: str
-        Representation of encoding type.
-    content: list
-        Lines of the subtitle file.
-    _iterator: int
-        Iter number when iterator set.
-
-    Methods
-    ----------
-    __init__(path, encoding)
-        Create class instance.
-    __str__()
-        Subtitle("arg1", "arg2")
-    __repr__()
-        Subtitle(path="arg1", encoding="arg2")
-    __bool__()
-        Whether contains lines.
-    __eq__(other)
-        Whether both contents are equal.
-    __len__()
-        Count of content lines.
-    __contains__(item)
-        Whether item in any line.
-    __iter__()
-        Behave as iterator.
-    __next__()
-        Give a next line.
+    This class is intended to be inherited
+    by specific classes. Using it directly may
+    have undesirable consequences.
     """
+
+    path = ""
+
+    encoding = ""
+
+    content = []
 
     def __init__(self, path: str = "", encoding: str = "") -> None:
         """
@@ -88,9 +66,9 @@ class Subtitle:
 
         Parameters
         ----------
-        path: str
+        path
             Path to a textual subtitle file.
-        encoding: str
+        encoding
             Representation of encoding type.
 
         Returns
@@ -108,10 +86,7 @@ class Subtitle:
                         for line in f.readlines()
                     ]
             except Exception:
-                self.content = []
                 print(sys.exc_info())
-        else:
-            self.content = []
 
     def __str__(self) -> str:
         """
@@ -123,8 +98,7 @@ class Subtitle:
 
         Returns
         ----------
-        str
-            class_name("path", "encoding")
+        class_name("path", "encoding")
         """
         return f'{self.__class__.__name__}'\
                f'("{self.path}", "{self.encoding}")'
@@ -139,8 +113,7 @@ class Subtitle:
 
         Returns
         ----------
-        str
-            class_name(path="path", encoding="encoding")
+        class_name(path="path", encoding="encoding")
         """
         return f'{self.__class__.__name__}'\
                f'(path="{self.path}", encoding="{self.encoding}")'
@@ -155,8 +128,7 @@ class Subtitle:
 
         Returns
         ----------
-        bool
-            Whether self.content is empty.
+        Whether self.content is empty.
         """
         return bool(self.content)
 
@@ -166,13 +138,12 @@ class Subtitle:
 
         Parameters
         ----------
-        other: Subtitle
+        other
             Object to compare.
 
         Returns
         ----------
-        bool
-            Whether the contents of both are equal.
+        Whether the contents of both are equal.
         """
         return self.content == other.content
 
@@ -186,8 +157,7 @@ class Subtitle:
 
         Returns
         ----------
-        int
-            Number of lines in file.
+        Number of lines in file.
         """
         return len(self.content)
 
@@ -198,13 +168,12 @@ class Subtitle:
 
         Parameters
         ----------
-        item: str
+        item
             The string to be searched for.
 
         Returns
         ----------
-        bool
-            Whether the string is found.
+        Whether the string is found.
         """
         for line in self.content:
             if item in line:
@@ -223,10 +192,9 @@ class Subtitle:
 
         Returns
         ----------
-        Subtitle
-            Iterator of itself.
+        Iterator of itself.
         """
-        self._iterator = 0
+        self.__line__ = 0
         return self
 
     def __next__(self) -> str:
@@ -240,55 +208,16 @@ class Subtitle:
 
         Returns
         ----------
-        str
-            Specified line.
+        Specified line.
         """
-        line = self.content[self._iterator]
-        self._iterator += 1
+        line = self.content[self.__line__]
+        self.__line__ += 1
         return line
 
 
 class MPlayer2(Subtitle):
     """
     Represent MPlayer2 subtitle format.
-
-    Attributes
-    ----------
-    path: str
-        Path to a textual subtitle file.
-    encoding: str
-        Representation of encoding type.
-    content: list
-        Lines of the subtitle file.
-    pattern: str
-        RegEx pattern of MPlayer2 format.
-    _iterator: int
-        Iter number when iterator set.
-
-    Methods
-    ----------
-    get_general_format()
-        Return content in general format.
-    set_from_general_format(lines)
-        Set lines to MPlayer2 format.
-    __init__(path, encoding)
-        Create class instance.
-    __str__()
-        MPlayer2("arg1", "arg2")
-    __repr__()
-        MPlayer2(path="arg1", encoding="arg2")
-    __bool__()
-        Whether contains lines.
-    __eq__(other)
-        Whether both contents are equal.
-    __len__()
-        Count of content lines.
-    __contains__(item)
-        Whether item in any line.
-    __iter__()
-        Behave as iterator.
-    __next__()
-        Give a next line.
     """
 
     pattern = r"\\[[0-9]+\\]\\[[0-9]+\\] .*\n"
@@ -304,8 +233,7 @@ class MPlayer2(Subtitle):
 
         Returns
         ----------
-        list
-            Lines in general format.
+        Lines in general format.
         """
         lines = [line.rstrip("\n") for line in self.content]
         lines = [line.split("]", 2) for line in lines]
@@ -324,7 +252,7 @@ class MPlayer2(Subtitle):
 
         Parameters
         ----------
-        lines: list
+        lines
             Lines in general format.
 
         Returns
@@ -343,44 +271,6 @@ class MPlayer2(Subtitle):
 class SubRip(Subtitle):
     """
     Represent SubRip subtitle format.
-
-    Attributes
-    ----------
-    path: str
-        Path to a textual subtitle file.
-    encoding: str
-        Representation of encoding type.
-    content: list
-        Lines of the subtitle file.
-    pattern: str
-        RegEx pattern of SubRip format.
-    _iterator: int
-        Iter number when iterator set.
-
-    Methods
-    ----------
-    get_general_format()
-        Return content in general format.
-    set_from_general_format(lines)
-        Set lines to SubRip format.
-    __init__(path, encoding)
-        Create class instance.
-    __str__()
-        SubRip("arg1", "arg2")
-    __repr__()
-        SubRip(path="arg1", encoding="arg2")
-    __bool__()
-        Whether contains lines.
-    __eq__(other)
-        Whether both contents are equal.
-    __len__()
-        Count of content lines.
-    __contains__(item)
-        Whether item in any line.
-    __iter__()
-        Behave as iterator.
-    __next__()
-        Give a next line.
     """
 
     pattern = r"[0-9]+\n[0-9]{2}:[0-9]{2}:[0-9]{2},[0-9]{3} "\
@@ -397,8 +287,7 @@ class SubRip(Subtitle):
 
         Returns
         ----------
-        list
-            Lines in general format.
+        Lines in general format.
         """
         lines, temp = [], []
         for line in self.content:
@@ -434,7 +323,7 @@ class SubRip(Subtitle):
 
         Parameters
         ----------
-        lines: list
+        lines
             Lines in general format.
 
         Returns
@@ -464,44 +353,6 @@ class SubRip(Subtitle):
 class MicroDVD(Subtitle):
     """
     Represent MicroDVD subtitle format.
-
-    Attributes
-    ----------
-    path: str
-        Path to a textual subtitle file.
-    encoding: str
-        Representation of encoding type.
-    content: list
-        Lines of the subtitle file.
-    pattern: str
-        RegEx pattern of MicroDVD format.
-    _iterator: int
-        Iter number when iterator set.
-
-    Methods
-    ----------
-    get_general_format()
-        Return content in general format.
-    set_from_general_format(lines)
-        Set lines to MicroDVD format.
-    __init__(path, encoding)
-        Create class instance.
-    __str__()
-        MicroDVD("arg1", "arg2")
-    __repr__()
-        MicroDVD(path="arg1", encoding="arg2")
-    __bool__()
-        Whether contains lines.
-    __eq__(other)
-        Whether both contents are equal.
-    __len__()
-        Count of content lines.
-    __contains__(item)
-        Whether item in any line.
-    __iter__()
-        Behave as iterator.
-    __next__()
-        Give a next line.
     """
 
     pattern = r"{[0-9]+}{[0-9]+}.*\n"
@@ -517,8 +368,7 @@ class MicroDVD(Subtitle):
 
         Returns
         ----------
-        list
-            Lines in general format.
+        Lines in general format.
         """
         lines = [line.rstrip("\n") for line in self.content]
         lines = [line.split("}", 2) for line in lines]
@@ -538,7 +388,7 @@ class MicroDVD(Subtitle):
 
         Parameters
         ----------
-        lines: list
+        lines
             Lines in general format.
 
         Returns
@@ -557,44 +407,6 @@ class MicroDVD(Subtitle):
 class TMPlayer(Subtitle):
     """
     Represent TMPlayer subtitle format.
-
-    Attributes
-    ----------
-    path: str
-        Path to a textual subtitle file.
-    encoding: str
-        Representation of encoding type.
-    content: list
-        Lines of the subtitle file.
-    pattern: str
-        RegEx pattern of TMPlayer format.
-    _iterator: int
-        Iter number when iterator set.
-
-    Methods
-    ----------
-    get_general_format()
-        Return content in general format.
-    set_from_general_format(lines)
-        Set lines to TMPlayer format.
-    __init__(path, encoding)
-        Create class instance.
-    __str__()
-        TMPlayer("arg1", "arg2")
-    __repr__()
-        TMPlayer(path="arg1", encoding="arg2")
-    __bool__()
-        Whether contains lines.
-    __eq__(other)
-        Whether both contents are equal.
-    __len__()
-        Count of content lines.
-    __contains__(item)
-        Whether item in any line.
-    __iter__()
-        Behave as iterator.
-    __next__()
-        Give a next line.
     """
 
     pattern = r"[0-9]+:[0-9]+:[0-9]+:.*\n"
@@ -610,8 +422,7 @@ class TMPlayer(Subtitle):
 
         Returns
         ----------
-        list
-            Lines in general format.
+        Lines in general format.
         """
         lines = [line.rstrip("\n") for line in self.content]
         lines = [line.split(":", 3) for line in lines]
@@ -637,7 +448,7 @@ class TMPlayer(Subtitle):
 
         Parameters
         ----------
-        lines: list
+        lines
             Lines in general format.
 
         Returns

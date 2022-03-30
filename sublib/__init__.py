@@ -1,6 +1,4 @@
 """
-SubLib
-========
 Package for easier management and
 processing of subtitle files. Library
 allows you to get subtitle data and
@@ -18,71 +16,20 @@ FUNCTONS
 
 CLASSES
 
-    Subtitle(__builtin__.object)
-    |
-    |   Represent subtitle file in general.
-    |   Specific format classes inherit from it.
-    |
-    |   Methods:
-    |       __init__(path, encoding)
-    |       __str__()
-    |       __repr__()
-    |       __bool__()
-    |       __eq__(other)
-    |       __len__()
-    |       __contains__(item)
-    |       __iter__()
-    |       __next__()
-    |
+    Subtitle(builtins.object)
+        Represent subtitle file in general.
 
     MPlayer2(Subtitle)
-    |
-    |   Represent MPlayer2 subtitle format.
-    |
-    |   Attributes:
-    |       pattern
-    |
-    |   Methods:
-    |       get_general_format()
-    |       set_from_general_format(lines)
-    |
+        Represent MPlayer2 subtitle format.
 
     SubRip(Subtitle)
-    |
-    |   Represent SubRip subtitle format.
-    |
-    |   Attributes:
-    |       pattern
-    |
-    |   Methods:
-    |       get_general_format()
-    |       set_from_general_format(lines)
-    |
+        Represent SubRip subtitle format.
 
     MicroDVD(Subtitle)
-    |
-    |   Represent MicroDVD subtitle format.
-    |
-    |   Attributes:
-    |       pattern
-    |
-    |   Methods:
-    |       get_general_format()
-    |       set_from_general_format(lines)
-    |
+        Represent MicroDVD subtitle format.
 
     TMPlayer(Subtitle)
-    |
-    |   Represent TMPlayer subtitle format.
-    |
-    |   Attributes:
-    |       pattern
-    |
-    |   Methods:
-    |       get_general_format()
-    |       set_from_general_format(lines)
-    |
-
+        Represent TMPlayer subtitle format.
 """
 
 from sublib.sublib import detect, Subtitle, MPlayer2, SubRip, MicroDVD, TMPlayer
