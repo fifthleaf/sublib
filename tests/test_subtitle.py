@@ -1,5 +1,4 @@
 import builtins
-import datetime
 
 import pytest
 import pytest_mock
@@ -69,7 +68,7 @@ class TestSubtitleClass:
     def test_subtitle__iter__(self, subtitle_valid):
         subtitle = subtitle_valid
         assert iter(subtitle) == subtitle
-        assert hasattr(subtitle, "_iterator")
+        assert hasattr(subtitle, "__line__")
 
     def test_subtitle__next__(self, subtitle_valid):
         subtitle = subtitle_valid
