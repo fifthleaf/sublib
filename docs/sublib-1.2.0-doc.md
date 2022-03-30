@@ -99,8 +99,9 @@ Getting help about package
 dir(sublib)
 
 # To see module, function or class help
+help(sublib)
 help(sublib.detect)
-print(sublib.detect.__doc__)
+help(sublib.MPlayer2)
 ```
 
 Detection of the subtitle format
@@ -139,7 +140,6 @@ subtitle.path       # File path you used to create the object
 subtitle.encoding   # Encoding you used to create the object
 subtitle.content    # Contents of the file as a list of lines
 subtitle.pattern    # RegEx format of a specific type of subtitle
-subtitle._iterator  # Current line number when iterator set
 ```
 
 Boolean conversion
@@ -180,6 +180,12 @@ Iterating over the subtitle lines
 # The individual lines are searched sequentially
 for line in subtitle:
     print(line)
+
+# Current line number is stored in __line__ variable
+iter(subtitle)
+print(subtitle.__line__) #0
+next(subtitle)
+print(subtitle.__line__) #1
 ```
 
 ## Details
@@ -197,7 +203,11 @@ for line in subtitle:
 ### Classes
 
 **Subtitle(\_\_builtin\_\_.object)** \
-&emsp;Represent subtitle file in general. Specific format classes inherit from it.
+&emsp;Represent subtitle file in general. \
+&emsp;------------------------------------ \
+&emsp;Note \
+&emsp;This class is intended to be inherited by specific classes. \
+&emsp;Using it directly may have undesirable consequences.
 
 &emsp;**path : str** \
 &emsp;&emsp;Path to a textual subtitle file.
