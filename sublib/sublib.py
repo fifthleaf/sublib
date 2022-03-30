@@ -29,15 +29,16 @@ def detect(path: str, encoding: str) -> str:
     regex_sub = "{[0-9]+}{[0-9]+}.*\n"
     regex_tmp = "[0-9]+:[0-9]+:[0-9]+:.*\n"
     if re.findall(regex_mpl, content):
-        return "mpl"
+        found = "mpl"
     elif re.findall(regex_srt, content):
-        return "srt"
+        found = "srt"
     elif re.findall(regex_sub, content):
-        return "sub"
+        found = "sub"
     elif re.findall(regex_tmp, content):
-        return "tmp"
+        found = "tmp"
     else:
-        return "undefined"
+        found = "undefined"
+    return found
 
 
 # Classes
@@ -176,10 +177,10 @@ class Subtitle:
         Whether the string is found.
         """
         for line in self.content:
-            if item in line:
-                return True
+            if item not in line:
+                continue
             else:
-                return False
+                return True
 
     def __iter__(self) -> "Subtitle":
         """
