@@ -1,4 +1,4 @@
-# Documentation for Sublib v1.2.0
+# Sublib v1.2.0
 - [Installation](#installation)
   - [User](#user)
   - [Contributor](#contributor)
@@ -12,30 +12,38 @@
 - [License](#license)
 
 ## Installation
-There are two ways to use the library:
+There are two ways to use the library
 - As user (PyPi)
 - As contributor (archive)
 
 ### User
-Please download via pip package
+Please download via Pip package
 ```bash
 python -m pip install sublib
 ```
-Now you can use it in your project.
+Now you can use it in your project
+```python
+import sublib
+```
 
 ### Contributor
 Please download project from GitHub
 ```bash
 # HTTPS
 git clone https://github.com/TheFifthLeaf/sublib.git
+
 # SSH
 ssh git@github.com:TheFifthLeaf/sublib.git
+
 # GitHub CLI
 gh repo clone TheFifthLeaf/sublib
 ```
 Using a virtual environment is usually a good idea
 ```bash
+# Create venv
 python -m venv <env_name>
+
+# Activate venv
 <env_name>\Scripts\activate
 ```
 Install package, preferably in edit mode
@@ -53,14 +61,23 @@ Unit tests use the following dependencies
 - pytest
 - pytest-mock
 
-You run them from project home directory or through Tox
+Run them from project home directory
 ```bash
+# Pytest
 python -m pytest tests
+
+# Tox, if installed
+python -m tox
 ```
 
-You can also check tests coverage using coverage package
+You can also check tests coverage using Coverage package
 ```bash
+# Create coverage report
+# File: .coverage
 coverage run --source=sublib -m pytest tests
+
+# Write report in STDOUT
+coverage report -m
 ```
 
 Current coverage:
@@ -76,74 +93,89 @@ To use the module you need to import it first
 import sublib
 ```
 
+Getting help about package
+```python
+# To see package content
+dir(sublib)
+
+# To see module, function or class help
+help(sublib.detect)
+print(sublib.detect.__doc__)
+```
+
 Detection of the subtitle format
 ```python
-# If the format is unknown it will return 'undefined'
 # Supported formats:
-# mpl (MPlayer2), srt (SubRip),
-# sub (MicroDVD), tmp (TMPlayer)
+# mpl (MPlayer2), srt (SubRip), sub (MicroDVD), tmp (TMPlayer)
+# If the format is unknown it will return "undefined"
 sub_format = sublib.detect("subtitle.srt", "utf-8")
 ```
 
 Creation of the subtitle object
 ```python
-# You can choose from: MPlayer2, SubRip, MicroDVD, TMPlayer
+# You can choose from:
+# MPlayer2, SubRip, MicroDVD, TMPlayer
 # (There is also a generic "Subtitle" class)
 subtitle = sublib.SubRip("subtitle.srt", "utf-8")
 ```
 
-Each subtitle object has two methods
+Subtitles objects methods
 ```python
-# Returns a list of lines in a universal (general) format
-# [[datetime.timedelta(...), datetime.timedelta(...), 'Line 01|Line 02], ...]
+# Applies to all classes except generic "Subtitle"
+
+# Returns a list of lines in a universal (general) format:
+# [datetime.timedelta(...), datetime.timedelta(...), 'Line|Line']
+subtitle = sublib.SubRip("file.srt", "utf-8")
 general = subtitle.get_general_format()
 
-# Formats lines and adds them to an existing object
+# Format and add lines to specific subtitle object
 empty_subtitle = sublib.MPlayer2()
 empty_subtitle.set_from_general_format(general)
 ```
 
-..and several attributes:
+..and several attributes
 ```python
 subtitle.path       # File path you used to create the object
 subtitle.encoding   # Encoding you used to create the object
 subtitle.content    # Contents of the file as a list of lines
 subtitle.pattern    # RegEx format of a specific type of subtitle
+subtitle._iterator  # Current line number when iterator set
 ```
 
-Boolean conversion:
+Boolean conversion
 ```python
 # Empty object will return False
 print(bool(subtitle))
+
 # Object with content will return True
 subtitle.set_from_general_format(general)
 if subtitle:
     print(subtitle.content)
 ```
 
-Object content comparison:
+Object content comparison
 ```python
-# The contents of the 'content' attributes of each
-# object are compared
+# The contents of the "content"
+# attributes of each object are compared
 if subtitle_1 != subtitle_2:
     subtitle_2.content = subtitle_1.content
 ```
 
-Return the number of lines in the file:
+Return the number of lines in the file
 ```python
-# In all formats except SubRip, this is the number
-# of lines that will be displayed
+# In all formats except "SubRip", this is
+# the number of lines that will be displayed
 print(len(subtitle))
 ```
 
-Presence of a string in the subtitles may be check with 'in' statement:
+Check presence of a string in the subtitles
 ```python
 # The individual lines are searched sequentially
 if "some text" in subtitle:
     return "Yes"
 ```
 
-Iterating over the subtitle lines:
+Iterating over the subtitle lines
 ```python
 # The individual lines are searched sequentially
 for line in subtitle:
@@ -258,7 +290,7 @@ for line in subtitle:
 
 Supported:
 | Full name | Short name | Default ext. |
-|:----------|:----------:|:------------:|
+|:---------:|:----------:|:------------:|
 | MPlayer2  | mpl        | .txt         |
 | SubRip    | srt        | .srt         |
 | MicroDVD  | sub        | .sub         |
@@ -268,9 +300,9 @@ Supported:
 
 The library is distributed under the terms of the [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/).
 
-Main terms:
+Main terms of use:
 | Permissions    | Conditions       | Limitations |
-|:---------------|:----------------:|:-----------:|
+|:--------------:|:----------------:|:-----------:|
 | Commercial use | Disclose source  | Liability   |
 | Distribution   | Copyright notice | Warranty    |
 | Modification   | Same license     |             |
