@@ -49,3 +49,21 @@ class TestTMPlayerClass:
         subtitle = sublib.TMPlayer()
         subtitle.set_from_general_format(self.general_lines)
         assert test_data == subtitle.content
+
+    def test_tmplayer_invalid_line_format(self, mocker):
+        test_data = "00:01:00 Line 01"
+        mocker.patch(
+            "builtins.open",
+            mocker.mock_open(read_data=test_data)
+        )
+        subtitle = sublib.TMPlayer("file.txt", "utf-8")
+
+        with pytest.raises(IndexError) as exception_info:
+            subtitle.get_general_format()
+
+        expected_error_message = (
+            "Please fix line #0 as it doesn't adhere to TMPlayer "
+            f"format: '%H:%M:%S:text' -> {test_data.split(':', 3)}"
+        )
+        assert str(exception_info.value) == expected_error_message
+
