@@ -427,6 +427,12 @@ class TMPlayer(Subtitle):
         """
         lines = [line.rstrip("\n") for line in self.content]
         lines = [line.split(":", 3) for line in lines]
+        for idx, line in enumerate(lines):
+            if len(line) < 4:
+                raise IndexError(
+                    f"Please fix line #{idx} as it doesn't adhere to TMPlayer "
+                    f"format: '%H:%M:%S:text' -> {line}"
+                )
         lines = [
             [f"{line[0]}:{line[1]}:{line[2]}", line[3]]
             for line in lines
