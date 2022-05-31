@@ -22,21 +22,21 @@ Download the latest version from `PyPi`
 ```bash
 python -m pip install sublib
 ```
-[More](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.0-doc.md#installation)
+[More](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.1-doc.md#installation)
 
 ## Testing
 Perform the tests with `pytest` and `pytest-mock`
 ```bash
 python -m pytest tests
 ```
-[More](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.0-doc.md#testing)
+[More](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.1-doc.md#testing)
 
 ## Basic usage
 First of all, import the `package`
 ```python
 import sublib
 ```
-Each of the [supported](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.0-doc.md#formats) formats of subtitles is represent by its `class`
+Each of the [supported](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.1-doc.md#formats) formats of subtitles is represent by its `class`
 ```python
 # Create a subtitle instance
 subtitle = sublib.SubRip("subtitle.srt", "utf-8")
@@ -53,10 +53,10 @@ another_subtitle.set_from_general_format(general)
 # Print subtitle lines
 print(another_subtitle.content)
 ```
-[More](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.0-doc.md#usage)
+[More](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.1-doc.md#usage)
 
 ## Advanced usage
-Please, take a look if you need more [details](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.0-doc.md#details)
+Please, take a look if you need more [details](https://github.com/TheFifthLeaf/sublib/blob/main/docs/sublib-1.2.1-doc.md#details)
 
 ## Contributing
 Pull requests are welcome!

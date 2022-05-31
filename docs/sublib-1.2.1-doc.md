@@ -1,4 +1,4 @@
-# Sublib v1.2.0
+# Sublib v1.2.1
 - [Installation](#installation)
   - [User](#user)
   - [Contributor](#contributor)
